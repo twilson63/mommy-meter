@@ -1,0 +1,10 @@
+<button class="btn" ng-click="add">Add Record</button>
+<h1>Records</h1>
+<ul>
+  <li ng-repeat="record in records">
+    {{record.name}}
+    <a href="#" ng-click="show(record)">
+      <i class="icon-pencil"></i>
+    </a>
+  </li>
+</ul>

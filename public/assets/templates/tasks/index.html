@@ -1,0 +1,16 @@
+<div class="container">
+  <ul class="nav nav-tabs nav-stacked">
+    <li><strong>Tasks</strong></li>
+    <li ng-repeat="task in tasks">
+      <i class="icon-pencil pull-right" style="padding:10px;" ng-click="edit(task)"></i>
+      <a href="/records/new?task={{task._id}}">{{task.name}}</a>
+    </li>
+    <li>
+      <a href="/tasks/new">
+        <i class="icon-plus"></i>
+        New Task
+        <i class="icon-chevron-right pull-right"  style="margin-top:5px;"></i>
+      </a>
+    </li>
+  </ul>
+</div>

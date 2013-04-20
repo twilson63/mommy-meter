@@ -1,0 +1,32 @@
+<div class="container">
+  <form name="form">
+    <div class="control-group">
+      <label class="control-label">Username</label>
+      <div class="controls">
+        <input type="text" name="name" ng-model="profile.username"></input>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Email</label>
+      <div class="controls">
+        <input type="text" name="email" ng-model="profile.email"></input>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Password</label>
+      <div class="controls">
+        <input type="password" name="password" ng-model="profile.password"></input>
+      </div>
+    </div>
+    <div class="control-group">
+      <button class="btn btn-primary" ng-click="save(profile)" ng-disabled="form.$invalid">
+        <i class="icon-hdd"></i>
+        Save
+      </button>
+      <button class="btn btn-warning" ng-click="cancel()">
+        <i class="icon-cancel"></i>
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,32 @@
+<form name="form">
+  <legend>{{mode}} Record</legend>
+  <div class="control-group" ng-class="{error: form.name.$invalid}">
+    <label class="control-label">Name</label>
+    <div class="controls">
+      <input type="text" name="name" ng-model="record.taskName" required>
+    </div>
+  </div>
+  <div class="control-group" ng-class="{error: form.value.$invalid}">
+    <label class="control-label">Value</label>
+    <div class="controls">
+      <input type="text" name="value" ng-model="record.value" required>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Comments</label>
+    <div class="controls">
+      <textarea name="comments" ng-model="record.comments"></textarea>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <button class="btn btn-primary" ng-click="save(record)" ng-disabled="form.$invalid">
+      <i class="icon-hdd"></i>
+      Save
+    </button>
+    <button class="btn btn-warning" ng-click="cancel()">
+      <i class="icon-cancel"></i>
+      Cancel
+    </button>
+  </div>
+</form>

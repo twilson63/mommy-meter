@@ -1,0 +1,33 @@
+<div class="container">
+<form name="formTask">
+  <legend>{{mode}} Task</legend>
+  <div class="control-group" ng-class="{error: formTask.name.$invalid}"  style="padding-left: 40px;">
+    <label class="control-label">Name</label>
+    <div class="controls">
+      <input type="text" name="name" ng-model="task.name" required>
+    </div>
+  </div>
+  <div class="control-group"  style="padding-left: 40px;">
+    <label class="control-label" ng-class="{error: formTask.taskType.$invalid}">Type</label>
+    <div class="controls">
+      <select name="type" ng-model="task.taskType" ng-options="type for type in ['savings','quality-time']"  required></select>
+    </div>
+  </div>
+  <div class="control-group" ng-class="{error: formTask.value.$invalid}"  style="padding-left: 40px;">
+    <label class="control-label">Value</label>
+    <div class="controls">
+      <input type="text" name="value" ng-model="task.value" required>
+    </div>
+  </div>
+  <div class="control-group pull-right">
+    <button class="btn btn-primary" ng-click="save(task)" ng-disabled="formTask.$invalid">
+      <i class="icon-hdd"></i>
+      Save
+    </button>
+    <button class="btn btn-warning" ng-click="cancel()">
+      <i class="icon-cancel"></i>
+      Cancel
+    </button>
+  </div>
+</form>
+</div>
