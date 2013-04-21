@@ -1,13 +1,13 @@
 {
   "name": "mommy-meter",
-  "version": "0.0.0",
-  "description": "ERROR: No README.md file found!",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A iphone app to track family value",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "",
-  "author": "",
+  "author": "Tom",
   "license": "MIT",
   "dependencies": {
     "jaws": "~0.6.0",
