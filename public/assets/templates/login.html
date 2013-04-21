@@ -1,0 +1,27 @@
+<div class="container">
+  <form name="form" class="offset1">
+    <legend>Login</legend>
+    <div class="control-group">
+      <label class="control-label">Username</label>
+      <div class="controls">
+        <input type="text" name="name" ng-model="profile.name"></input>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Password</label>
+      <div class="controls">
+        <input type="password" name="password" ng-model="profile.password"></input>
+      </div>
+    </div>
+    <div class="control-group">
+      <button class="btn btn-primary" ng-click="login(profile)" ng-disabled="form.$invalid">
+        <i class="icon-lock"></i>
+        Save
+      </button>
+      <button class="btn btn-warning" ng-click="cancel()">
+        <i class="icon-cancel"></i>
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

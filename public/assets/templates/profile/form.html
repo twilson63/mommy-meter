@@ -1,11 +1,5 @@
 <div class="container">
-  <form name="form">
-    <div class="control-group">
-      <label class="control-label">Username</label>
-      <div class="controls">
-        <input type="text" name="name" ng-model="profile.username"></input>
-      </div>
-    </div>
+  <form name="form" class="offset1">
     <div class="control-group">
       <label class="control-label">Email</label>
       <div class="controls">
@@ -13,9 +7,29 @@
       </div>
     </div>
     <div class="control-group">
+      <label class="control-label">Username</label>
+      <div class="controls">
+        <input type="text" name="name" ng-model="profile.name"></input>
+      </div>
+    </div>
+    <div class="control-group">
       <label class="control-label">Password</label>
       <div class="controls">
         <input type="password" name="password" ng-model="profile.password"></input>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">Start of the Week</label>
+      <div class="controls">
+        <select ng-model="startDay">
+          <option>Sunday</option>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday</option>
+        </select>
       </div>
     </div>
     <div class="control-group">
