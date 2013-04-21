@@ -47,7 +47,8 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
       var rec = {
         name: task.value.name,
         taskType: task.value.taskType,
-        value: task.value.value
+        value: task.value.value,
+        recordedAt: new Date()
       }
       $http.post('/api/record', rec)
         .success(function(data) {
@@ -94,6 +95,9 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
           
         });
     }
+    $scope.signup = function() {
+      $location.path('/signup');
+    }
   })
   .controller('SignUpCtrl', function($scope, $http, $location, alerts) {
     $scope.edit = false;
@@ -116,14 +120,21 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
     $http.get('/api/task').success(function(data) {
       $scope.tasks = $_(data.rows).pluck('value');
     });
+    $http.get('/api/record').success(function(data) {
+      $scope.records = $_(data.rows).pluck('value');
+    });
     $scope.edit = function(task) {
       $location.path('/tasks/' + task._id + '/edit');
+    };
+    $scope.removeRecord = function(record) {
+      // remove record
     };
   })
   .controller('TaskNewCtrl', function($scope, $location, $http, alerts) {
     $scope.mode = "New";
     $scope.save = function(task) {
       // save task
+      task.createdAt = new Date();
       $http.post('/api/task', task)
         .success(function(data) {
           $location.path('/tasks');
@@ -143,6 +154,7 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
       $scope.task = data.rows[0].value;
     });
     $scope.save = function(task) {
+      task.updatedAt = new Date();
       // save task
       $http.put('/api/task/' + task._id, task)
         .success(function(data) {
@@ -171,6 +183,7 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
         $scope.record.value = task.value;
       });
     $scope.save = function(record) {
+      record.recordedAt = new Date();
       // save record
       record.task = $routeParams.task;
       $http.post('/api/record', record)

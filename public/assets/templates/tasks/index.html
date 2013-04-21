@@ -13,4 +13,12 @@
       </a>
     </li>
   </ul>
+  <ul class="nav nav-tabs nav-stacked">
+    <li><strong>Records</strong></li>
+    <li ng-repeat="record in records">
+      <i class="icon-trash pull-right" style="color: red;padding:10px;font-weight: bold; font-size: 1.2em;" ng-click="removeRecord(record)"></i>
+      <a href="/record/{{record._id}}/edit">{{record.name}}</a>
+    </li>
+  </ul>
+
 </div>
