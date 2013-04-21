@@ -97,7 +97,6 @@ app.get(/(?!\.)/, function(req, res) {
 
 function restrict() {
   return function(req, res, next) {
-    console.log(req.session.user);
     if (req.session.user) {
       req.db = nano.use(req.session.appdb);
       next();
