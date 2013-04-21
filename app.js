@@ -34,7 +34,7 @@ app.post('/api/signup', function(req, res) {
     nano.db.create('mm_' + username, function(err) {
       if (err) { return res.send(500, err); }
       var doc = { admins: { name: [], roles: []}, members: { names: [username], roles: []}};
-      //appdb = nano.use('mm_' +username);
+      appdb = nano.use('mm_' +username);
       // insert design document
       appdb.insert(modelDoc, '_design/model');
       appdb.insert(doc, '_security').pipe(res);
