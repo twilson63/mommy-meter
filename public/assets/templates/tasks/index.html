@@ -2,7 +2,7 @@
   <ul class="nav nav-tabs nav-stacked">
     <li><strong>Tasks</strong></li>
     <li ng-repeat="task in tasks">
-      <i class="icon-pencil pull-right" style="color: green;padding:10px;" ng-click="edit(task)"></i>
+      <i class="icon-pencil pull-right" style="color: green;padding:10px;font-weight: bold; font-size: 1.2em;" ng-click="edit(task)"></i>
       <a href="/records/new?task={{task._id}}">{{task.name}}</a>
     </li>
     <li>

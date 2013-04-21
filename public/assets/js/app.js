@@ -16,34 +16,96 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
       ;
     $locationProvider.html5Mode(true);
   })
-  .run(function($rootScope, $location) {
+  .value('alerts', [])
+  .run(function($rootScope, $location, alerts) {
     $rootScope.$on('event:auth-loginRequired', function() {
       $location.path('/login');
     });
     $rootScope.$on('event:auth-loginConfirmed', function() {
       $location.path('/');
     });
+    $rootScope.alerts = alerts;
+    $rootScope.closeAlert = function(index) {
+      $rootScope.alerts.splice(index, 1);
+    };
   })
-  .controller('IndexCtrl', function($scope, $http) {
+  .controller('IndexCtrl', function($scope, $http, $location, $_, alerts) {
+    var stats = {};
     $scope.stats = {};
+    $scope.btnChecked = true;
     $http.get('/api/record').success(function(data) {
-      $scope.stats.records = data.rows.length;
+      stats = data.rows;
+      calcStats(stats);
     });
+    $http.get('/api/task').success(function(data) {
+      $scope.tasks = data.rows;
+    });
+    $scope.logout = function() {
+      $location.path('/login');
+    };
+    $scope.record = function(task) {
+      var rec = {
+        name: task.value.name,
+        taskType: task.value.taskType,
+        value: task.value.value
+      }
+      $http.post('/api/record', rec)
+        .success(function(data) {
+          stats.push({ value: rec });
+          calcStats(stats);
+          // alert success
+          alerts.push({ type: 'success', msg: 'Recorded!'});
+        })
+        .error(function(err) {
+          alerts.push({ type: 'error', msg: 'Error'});
+          
+        });
+    };
+    var calcStats = function(stats) {
+      $scope.stats.records = stats.length;
+      $scope.stats.quality = 0;
+      $scope.stats.savings = 0;
+
+      $scope.stats.quality = $_(stats).reduce(function(total, item) { 
+        if (item.value.taskType === 'quality-time') {
+          return total + parseInt(item.value.value, 10);
+        } else {
+          return total + 0;
+        }
+      }, 0);
+      $scope.stats.savings = $_(stats).reduce(function(total, item) { 
+        if (item.value.taskType === 'savings') {
+          return total + parseInt(item.value.value, 10);
+        } else {
+          return total + 0;
+        }
+      }, 0);
+      
+    };
   })
-  .controller('LoginCtrl', function($scope, $http, $location, authService) {
+  .controller('LoginCtrl', function($scope, $http, $location, authService, alerts) {
     $scope.login = function(user) {
       $http.post('/api/login', user)
         .success(function(results) {
           authService.loginConfirmed();
+        })
+        .error(function(err) {
+          alerts.push({ type: 'error', msg: 'Error'});
+          
         });
     }
   })
-  .controller('SignUpCtrl', function($scope, $http, $location) {
+  .controller('SignUpCtrl', function($scope, $http, $location, alerts) {
+    $scope.edit = false;
     $scope.save = function(profile) {
       $http.post('/api/signup', profile)
         .success(function(results) {
           console.log(results);
           $location.path('/');
+        })
+        .error(function(err) {
+          alerts.push({ type: 'error', msg: 'Error'});
+          
         });
     };
     $scope.cancel = function() {
@@ -58,7 +120,7 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
       $location.path('/tasks/' + task._id + '/edit');
     };
   })
-  .controller('TaskNewCtrl', function($scope, $location, $http) {
+  .controller('TaskNewCtrl', function($scope, $location, $http, alerts) {
     $scope.mode = "New";
     $scope.save = function(task) {
       // save task
@@ -66,9 +128,11 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
         .success(function(data) {
           $location.path('/tasks');
           // add alert
+          alerts.push({ type: 'success', msg: 'Created New Task!'});
         })
         .error(function(err) {
-          // add alert
+          alerts.push({ type: 'error', msg: 'Error'});
+          
         });
     };
     $scope.cancel = function() { $location.path('/tasks'); }
@@ -84,9 +148,10 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
         .success(function(data) {
           $location.path('/tasks');
           // add alert
+          alerts.push({ type: 'success', msg: 'Updated Task!'});
         })
         .error(function(err) {
-          // add alert
+          alerts.push({ type: 'error', msg: 'Error'});
         });
     };
     $scope.cancel = function() { $location.path('/tasks'); }
@@ -111,10 +176,10 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
       $http.post('/api/record', record)
         .success(function(data) {
           $location.path('/tasks');
-          // add alert
+          alerts.push({ type: 'success', msg: 'Created Record!'});
         })
         .error(function(err) {
-          // add alert
+          alerts.push({ type: 'error', msg: 'Error'});
         });
     };
     $scope.cancel = function() { $location.path('/tasks'); }
@@ -128,8 +193,25 @@ var app = angular.module('App', ['ui.bootstrap','http-auth-interceptor'])
   .controller('HeaderCtrl', function($scope) {
     
   })
-  .controller('ProfileCtrl', function($scope) {
-    
+  .controller('ProfileCtrl', function($scope, $http, alerts, $location) {
+    $scope.edit = true;
+    $http.get('/api/profile')
+      .success(function(profile) {
+        $scope.profile = profile;
+      });
+    $scope.save = function(profile) {
+      $http.put('/api/profile', profile)
+        .success(function(data) {
+          alerts.push({type: 'success', msg: 'Updated Profile!'});
+          $location.path('/');
+        })
+        .error(function(err) {
+          alerts.push({ type: 'error', msg: 'Error'});
+        });
+    };
+    $scope.cancel = function() {
+      $location.path('/');
+    };
   })
   .directive('navbar', function() {
     return {

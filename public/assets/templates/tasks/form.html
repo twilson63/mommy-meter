@@ -19,7 +19,16 @@
       <input type="text" name="value" ng-model="task.value" required>
     </div>
   </div>
-  <div class="control-group pull-right">
+  <div class="control-label" style="padding-left: 40px;">
+    <label class="control-label">Quick Button</label>
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" ng-model="task.btn">
+        show btn on home panel
+      </label>
+    </div>
+  </div>
+  <div class="control-group" style="padding-left: 40px;">
     <button class="btn btn-primary" ng-click="save(task)" ng-disabled="formTask.$invalid">
       <i class="icon-hdd"></i>
       Save

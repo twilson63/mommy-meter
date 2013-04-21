@@ -8,6 +8,10 @@
   </head>
   <body>
     <div ng-include="'/assets/templates/nav.html'"></div>
+    <div style="position: fixed; z-index: 2000;width: 80%;">
+      <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+        <div ng-bind-html-unsafe="alert.msg"></div></alert>
+    </div>
     <ng-view></ng-view>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>

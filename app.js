@@ -55,11 +55,20 @@ app.post('/api/login', function(req, res) {
   });
 });
 
-app.post('/api/logout', function(req, res) {
-  delete res.session[req.session.user];
+app.post('/api/logout', restrict(), function(req, res) {
+  // TODO - Need to handler logout right
+  // req.session.destroy(function() {
+  //   res.send(200);
+  // });
   delete req.session.user;
   delete req.session.appdb;
+  delete res.session[req.session.user];
   res.send(200);
+
+});
+
+app.get('/api/profile', restrict(), function(req, res) {
+  usersdb.get('org.couchdb.user:' + req.session.user).pipe(res);
 });
 
 app.post('/api/:model', restrict(), function(req, res) {
@@ -88,7 +97,7 @@ app.get(/(?!\.)/, function(req, res) {
 
 function restrict() {
   return function(req, res, next) {
-    console.log(req.session);
+    console.log(req.session.user);
     if (req.session.user) {
       req.db = nano.use(req.session.appdb);
       next();
