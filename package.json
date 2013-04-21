@@ -1,10 +1,11 @@
 {
   "name": "mommy-meter",
-  "version": "0.0.1",
+  "version": "0.0.1-1",
   "description": "A iphone app to track family value",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": "",
   "author": "Tom",
@@ -14,5 +15,9 @@
     "express": "~3.2.0",
     "request": "~2.16.6",
     "nano": "~3.3.8"
+  },
+  "subdomain": "mommy-meter",
+  "engines": {
+    "node": "0.8.x"
   }
 }
